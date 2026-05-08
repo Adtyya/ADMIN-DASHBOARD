@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import LoginPage from "./pages/auth/login";
 import RegisterPage from "./pages/auth/register";
 import DashboardPage from "./pages/dashboard";
@@ -8,8 +9,15 @@ import UserEditPage from "./pages/users/edit";
 import UserViewPage from "./pages/users/view";
 import LogsPage from "./pages/logpg";
 import { DashboardLayout } from "./components/templates/dashboard-layout";
+import { ThemeProvider, useThemeContext } from "./context/ThemeContext";
 
-function App() {
+function AppRoutes() {
+  const { isLoading } = useThemeContext()
+
+  if (isLoading) {
+    return null
+  }
+
   return (
     <Routes>
       <Route path="/" element={<LoginPage />} />
@@ -24,6 +32,14 @@ function App() {
         <Route path="logs" element={<LogsPage />} />
       </Route>
     </Routes>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AppRoutes />
+    </ThemeProvider>
   );
 }
 

@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Download } from "lucide-react";
+import { Download, FileText, TrendingUp } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { DataTable } from "../../components/ui/data-table";
 import jsPDF from "jspdf";
@@ -89,6 +89,7 @@ export const columns = [
             size="icon"
             onClick={() => handleDownload(log.id)}
             title="Download Report PDF"
+            className="hover:bg-blue-100 dark:hover:bg-blue-900/30"
           >
             <Download className="w-4 h-4 text-blue-500" />
           </Button>
@@ -100,16 +101,83 @@ export const columns = [
 
 export default function LogsPage() {
   return (
-    <div className="flex-1 p-8 pt-6 space-y-4">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Logs</h2>
+    <div className="flex-1 space-y-6 pb-8 pt-6 px-6 md:px-8">
+      {/* Header Section */}
+      <div className="space-y-3">
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
+              Activity Logs
+            </h1>
+            <p className="text-sm text-muted-foreground mt-2">
+              Riwayat aktivitas sistem Smart Farm
+            </p>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+            <span>Recording</span>
+          </div>
+        </div>
       </div>
 
-      <DataTable
-        columns={columns}
-        data={DUMMY_LOGS}
-        searchPlaceholder="Cari log..."
-      />
+      {/* Stats Section */}
+      <div className="grid gap-3 md:grid-cols-3">
+        <div className="rounded-lg border border-border bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-950/20 dark:to-blue-900/20 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Total Logs</p>
+              <p className="text-2xl font-bold mt-1">{DUMMY_LOGS.length}</p>
+            </div>
+            <div className="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+              <FileText className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-lg border border-border bg-gradient-to-br from-green-50 to-green-100/50 dark:from-green-950/20 dark:to-green-900/20 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Total Water</p>
+              <p className="text-2xl font-bold mt-1">
+                {(DUMMY_LOGS.reduce((sum, log) => sum + parseFloat(log.totalWater), 0) / 1000).toFixed(1)}K L
+              </p>
+            </div>
+            <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+              <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400" />
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-lg border border-border bg-gradient-to-br from-orange-50 to-orange-100/50 dark:from-orange-950/20 dark:to-orange-900/20 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Total Energy</p>
+              <p className="text-2xl font-bold mt-1">
+                {(DUMMY_LOGS.reduce((sum, log) => sum + parseFloat(log.totalKwh), 0)).toFixed(1)} kWh
+              </p>
+            </div>
+            <div className="w-12 h-12 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
+              <TrendingUp className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Data Table Section */}
+      <div className="space-y-3">
+        <div className="px-1">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
+            Log Records
+          </h2>
+        </div>
+        <div className="rounded-lg border border-border bg-background shadow-sm">
+          <DataTable
+            columns={columns}
+            data={DUMMY_LOGS}
+            searchPlaceholder="Cari berdasarkan tanggal, device, atau waktu..."
+          />
+        </div>
+      </div>
     </div>
   );
 }

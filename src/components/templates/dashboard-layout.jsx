@@ -1,5 +1,6 @@
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom"
 import { LayoutDashboard, ChartNoAxesCombined, Users, LogOut } from "lucide-react"
+import { ThemeToggle } from "../ui/theme-toggle"
 
 import {
   AlertDialog,
@@ -141,8 +142,9 @@ export function DashboardLayout({ children }) {
     <SidebarProvider>
       <AppSidebar />
       <div className="flex-1 flex flex-col relative w-full overflow-hidden">
-        <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-background px-6">
+        <header className="flex h-14 lg:h-[60px] items-center justify-between border-b bg-background px-6">
           <SidebarTrigger />
+          <ThemeToggle />
         </header>
         <main className="flex-1 overflow-auto">
           {children || <Outlet />}
