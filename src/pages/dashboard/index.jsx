@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
@@ -6,7 +7,6 @@ import {
   CardDescription,
 } from "../../components/ui/card";
 import {
-  Cloud,
   Thermometer,
   Sun,
   Droplets,
@@ -15,11 +15,14 @@ import {
   Info,
   TrendingUp,
   Activity,
+  Wind,
+  Loader2
 } from "lucide-react";
 import { useThemeContext } from "../../context/ThemeContext";
+import { SensorService } from "../../services/sensor-service";
 
 // Stat Card Component dengan UI Profesional
-function StatCard({ title, value, unit, icon: Icon, color, status, trend, description }) {
+function StatCard({ title, value, unit, icon: Icon, color, status, trend, description, loading }) {
   const { isDark } = useThemeContext();
   
   const colorMap = {
@@ -55,7 +58,11 @@ function StatCard({ title, value, unit, icon: Icon, color, status, trend, descri
       <CardContent>
         <div className="space-y-2">
           <div className="flex items-baseline gap-2">
-            <div className="text-3xl font-bold tracking-tight">{value}</div>
+            {loading ? (
+              <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+            ) : (
+              <div className="text-3xl font-bold tracking-tight">{value}</div>
+            )}
             <span className="text-sm text-muted-foreground">{unit}</span>
           </div>
           <div className="flex items-center gap-2 pt-1">
@@ -108,6 +115,14 @@ function AlertCard({ message }) {
 export default function DashboardPage() {
   const { isDark } = useThemeContext();
 
+  const { data: sensorResponse, isLoading } = useQuery({
+    queryKey: ["latest-sensor"],
+    queryFn: SensorService.getLatestSensor,
+    refetchInterval: 30000, // Auto refresh every 30 seconds
+  });
+
+  const sensors = sensorResponse?.data;
+
   const dummyData = {
     weather: "Cerah Berawan",
     temperature: "28°C",
@@ -131,7 +146,7 @@ export default function DashboardPage() {
           <div>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
               Dashboard Monitoring
-            </h1>
+              </h1>
             <p className="text-sm text-muted-foreground mt-2">
               Smart Farm Automation System
             </p>
@@ -152,37 +167,40 @@ export default function DashboardPage() {
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <StatCard
-            title="Cuaca"
-            value={dummyData.weather}
-            unit=""
-            icon={Cloud}
-            color="blue"
-            description="Update terakhir: 10 menit lalu"
-          />
-          <StatCard
             title="Temperatur"
-            value={dummyData.temperature}
+            value={sensors ? sensors.temperature.toFixed(1) : "0"}
             unit="°C"
             icon={Thermometer}
             color="orange"
-            description="Suhu normal"
-            trend="↑ 2°"
+            description={sensors?.temperature > 30 ? "Suhu panas" : "Suhu normal"}
+            loading={isLoading}
+          />
+          <StatCard
+            title="Kelembaban Udara"
+            value={sensors ? sensors.air_humidity.toFixed(1) : "0"}
+            unit="%"
+            icon={Wind}
+            color="blue"
+            description="Kondisi udara"
+            loading={isLoading}
           />
           <StatCard
             title="Intensitas Cahaya"
-            value={dummyData.lightIntensity}
-            unit=""
+            value={sensors ? sensors.light_intensity : "0"}
+            unit="lux"
             icon={Sun}
             color="purple"
-            description="Sinar matahari cukup"
+            description="Sinar matahari"
+            loading={isLoading}
           />
           <StatCard
             title="Kelembaban Tanah"
-            value={dummyData.soilMoisture}
-            unit=""
+            value={sensors ? sensors.soil_moisture : "0"}
+            unit="%"
             icon={Droplets}
             color="green"
-            description="Kondisi tanah ideal"
+            description="Kondisi tanah"
+            loading={isLoading}
           />
         </div>
       </div>
@@ -202,23 +220,6 @@ export default function DashboardPage() {
             icon={Power}
             color="green"
             description="Aktif selama 45 menit"
-          />
-          <StatCard
-            title="Penggunaan Listrik"
-            value={dummyData.electricityUsage}
-            unit=""
-            icon={Zap}
-            color="orange"
-            description="Total pemakaian"
-          />
-          <StatCard
-            title="Penggunaan Air"
-            value={waterUsage.toLocaleString()}
-            unit="L"
-            icon={Droplets}
-            color="blue"
-            description={`${dummyData.pumpDurationMinutes} mnt x 100L/mnt`}
-            trend="↑ 5%"
           />
         </div>
       </div>

@@ -19,7 +19,7 @@ export default function UserViewPage() {
     <div className="flex-1 space-y-4 p-8 pt-6">
       <div className="flex items-center space-x-2">
         <Button variant="ghost" size="icon" asChild>
-          <Link to="/users">
+          <Link to="/dashboard/users">
             <ChevronLeft className="h-5 w-5" />
           </Link>
         </Button>
@@ -51,7 +51,7 @@ export default function UserViewPage() {
 
             <div className="flex items-center justify-end space-x-2 pt-4">
               <Button asChild>
-                <Link to="/users">Kembali</Link>
+                <Link to="/dashboard/users">Kembali</Link>
               </Button>
             </div>
           </CardContent>

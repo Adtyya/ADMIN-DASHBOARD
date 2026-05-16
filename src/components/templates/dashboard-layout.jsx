@@ -1,5 +1,5 @@
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom"
-import { LayoutDashboard, ChartNoAxesCombined, Users, LogOut } from "lucide-react"
+import { LayoutDashboard, ChartNoAxesCombined, Users, LogOut, Sprout } from "lucide-react"
 import { ThemeToggle } from "../ui/theme-toggle"
 
 import {
@@ -46,6 +46,7 @@ export function AppSidebar() {
 
   const items = [
     { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+    { title: "Crops", url: "/dashboard/crops", icon: Sprout },
     { title: "Logs", url: "/dashboard/logs", icon: ChartNoAxesCombined },
   ]
 
