@@ -16,21 +16,41 @@ import {
   TrendingUp,
   Activity,
   Wind,
-  Loader2
+  Loader2,
 } from "lucide-react";
 import { useThemeContext } from "../../context/ThemeContext";
 import { SensorService } from "../../services/sensor-service";
 
 // Stat Card Component dengan UI Profesional
-function StatCard({ title, value, unit, icon: Icon, color, status, trend, description, loading }) {
+function StatCard({
+  title,
+  value,
+  unit,
+  icon: Icon,
+  color,
+  status,
+  trend,
+  description,
+  loading,
+}) {
   const { isDark } = useThemeContext();
-  
+
   const colorMap = {
-    blue: isDark ? "from-blue-600/20 to-blue-700/10 border-blue-500/30" : "from-blue-50 to-blue-100/50 border-blue-200",
-    orange: isDark ? "from-orange-600/20 to-orange-700/10 border-orange-500/30" : "from-orange-50 to-orange-100/50 border-orange-200",
-    green: isDark ? "from-green-600/20 to-green-700/10 border-green-500/30" : "from-green-50 to-green-100/50 border-green-200",
-    red: isDark ? "from-red-600/20 to-red-700/10 border-red-500/30" : "from-red-50 to-red-100/50 border-red-200",
-    purple: isDark ? "from-purple-600/20 to-purple-700/10 border-purple-500/30" : "from-purple-50 to-purple-100/50 border-purple-200",
+    blue: isDark
+      ? "from-blue-600/20 to-blue-700/10 border-blue-500/30"
+      : "from-blue-50 to-blue-100/50 border-blue-200",
+    orange: isDark
+      ? "from-orange-600/20 to-orange-700/10 border-orange-500/30"
+      : "from-orange-50 to-orange-100/50 border-orange-200",
+    green: isDark
+      ? "from-green-600/20 to-green-700/10 border-green-500/30"
+      : "from-green-50 to-green-100/50 border-green-200",
+    red: isDark
+      ? "from-red-600/20 to-red-700/10 border-red-500/30"
+      : "from-red-50 to-red-100/50 border-red-200",
+    purple: isDark
+      ? "from-purple-600/20 to-purple-700/10 border-purple-500/30"
+      : "from-purple-50 to-purple-100/50 border-purple-200",
   };
 
   const iconColorMap = {
@@ -42,7 +62,9 @@ function StatCard({ title, value, unit, icon: Icon, color, status, trend, descri
   };
 
   return (
-    <Card className={`border bg-gradient-to-br ${colorMap[color]} hover:shadow-lg transition-all duration-300`}>
+    <Card
+      className={`border bg-gradient-to-br ${colorMap[color]} hover:shadow-lg transition-all duration-300`}
+    >
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div>
@@ -69,12 +91,20 @@ function StatCard({ title, value, unit, icon: Icon, color, status, trend, descri
             {description ? (
               <p className="text-xs text-muted-foreground">{description}</p>
             ) : status ? (
-              <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                status === "normal" ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" : 
-                status === "warning" ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400" :
-                "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
-              }`}>
-                {status === "normal" ? "✓ Normal" : status === "warning" ? "⚠ Warning" : "✕ Alert"}
+              <span
+                className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                  status === "normal"
+                    ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                    : status === "warning"
+                      ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                      : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                }`}
+              >
+                {status === "normal"
+                  ? "✓ Normal"
+                  : status === "warning"
+                    ? "⚠ Warning"
+                    : "✕ Alert"}
               </span>
             ) : null}
             {trend && (
@@ -136,7 +166,7 @@ export default function DashboardPage() {
   };
 
   const waterUsage = dummyData.pumpDurationMinutes * 100;
-  const grafanaTheme = isDark ? "dark" : "light"; //grafik grafana mengikuti tema 
+  const grafanaTheme = isDark ? "dark" : "light"; //grafik grafana mengikuti tema
 
   return (
     <div className="flex-1 space-y-6 pb-8 pt-6 px-6 md:px-8">
@@ -146,7 +176,7 @@ export default function DashboardPage() {
           <div>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
               Dashboard Monitoring
-              </h1>
+            </h1>
             <p className="text-sm text-muted-foreground mt-2">
               Smart Farm Automation System
             </p>
@@ -172,7 +202,9 @@ export default function DashboardPage() {
             unit="°C"
             icon={Thermometer}
             color="orange"
-            description={sensors?.temperature > 30 ? "Suhu panas" : "Suhu normal"}
+            description={
+              sensors?.temperature > 30 ? "Suhu panas" : "Suhu normal"
+            }
             loading={isLoading}
           />
           <StatCard
@@ -239,14 +271,14 @@ export default function DashboardPage() {
             Real-time visualization dari Grafana
           </p>
         </div>
-        
+
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
           {/* Suhu Udara */}
           <div className="overflow-hidden rounded-lg border border-border bg-background shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-center w-full overflow-hidden">
               <iframe
                 key={`grafana-1-${grafanaTheme}`}
-                src={`/grafana-proxy/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437017465&to=1777438817465&timezone=browser&refresh=10s&panelId=panel-1&theme=${grafanaTheme}`}
+                src={`http://103.93.160.128:3000/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777407337111&to=1777428937111&timezone=browser&refresh=10s&panelId=panel-1&theme=${grafanaTheme}`}
                 width="100%"
                 height="450"
                 frameBorder="0"
@@ -259,11 +291,10 @@ export default function DashboardPage() {
 
           {/* Kelembapan Udara */}
           <div className="overflow-hidden rounded-lg border border-border bg-background shadow-sm hover:shadow-md transition-shadow">
-           
             <div className="flex items-center justify-center w-full overflow-hidden">
               <iframe
                 key={`grafana-2-${grafanaTheme}`}
-                src={`/grafana-proxy/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437542980&to=1777439342980&timezone=browser&refresh=10s&panelId=panel-2&theme=${grafanaTheme}`}
+                src={`http://103.93.160.128:3000/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437542980&to=1777439342980&timezone=browser&refresh=10s&panelId=panel-2&theme=${grafanaTheme}`}
                 width="100%"
                 height="450"
                 frameBorder="0"
@@ -276,11 +307,10 @@ export default function DashboardPage() {
 
           {/* Intensitas Cahaya */}
           <div className="overflow-hidden rounded-lg border border-border bg-background shadow-sm hover:shadow-md transition-shadow">
-           
             <div className="flex items-center justify-center w-full overflow-hidden">
               <iframe
                 key={`grafana-3-${grafanaTheme}`}
-                src={`/grafana-proxy/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437565014&to=1777439365014&timezone=browser&refresh=10s&panelId=panel-3&theme=${grafanaTheme}`}
+                src={`http://103.93.160.128:3000/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437565014&to=1777439365014&timezone=browser&refresh=10s&panelId=panel-3&theme=${grafanaTheme}`}
                 width="100%"
                 height="450"
                 frameBorder="0"
@@ -296,7 +326,7 @@ export default function DashboardPage() {
             <div className="flex items-center justify-center w-full overflow-hidden">
               <iframe
                 key={`grafana-4-${grafanaTheme}`}
-                src={`/grafana-proxy/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437586353&to=1777439386353&timezone=browser&refresh=10s&panelId=panel-4&theme=${grafanaTheme}`}
+                src={`http://103.93.160.128:3000/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437586353&to=1777439386353&timezone=browser&refresh=10s&panelId=panel-4&theme=${grafanaTheme}`}
                 width="100%"
                 height="450"
                 frameBorder="0"

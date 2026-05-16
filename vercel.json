@@ -5,10 +5,6 @@
             "destination": "http://103.93.160.128:3001/api/:path*"
         },
         {
-            "source": "/grafana-proxy/:path*",
-            "destination": "http://103.93.160.128:3000/:path*"
-        },
-        {
             "source": "/(.*)",
             "destination": "/"
         }

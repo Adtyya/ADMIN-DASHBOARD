@@ -22,11 +22,6 @@ export default defineConfig({
         target: 'http://103.93.160.128:3001/api',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/external/, ''),
-      },
-      '/grafana-proxy': {
-        target: 'http://103.93.160.128:3000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/grafana-proxy/, ''),
       }
     }
   }
