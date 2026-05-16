@@ -246,7 +246,7 @@ export default function DashboardPage() {
             <div className="flex items-center justify-center w-full overflow-hidden">
               <iframe
                 key={`grafana-1-${grafanaTheme}`}
-                src={`http://103.93.160.128:3000/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437017465&to=1777438817465&timezone=browser&refresh=10s&panelId=panel-1&theme=${grafanaTheme}`}
+                src={`/grafana-proxy/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437017465&to=1777438817465&timezone=browser&refresh=10s&panelId=panel-1&theme=${grafanaTheme}`}
                 width="100%"
                 height="450"
                 frameBorder="0"
@@ -263,7 +263,7 @@ export default function DashboardPage() {
             <div className="flex items-center justify-center w-full overflow-hidden">
               <iframe
                 key={`grafana-2-${grafanaTheme}`}
-                src={`http://103.93.160.128:3000/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437542980&to=1777439342980&timezone=browser&refresh=10s&panelId=panel-2&theme=${grafanaTheme}`}
+                src={`/grafana-proxy/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437542980&to=1777439342980&timezone=browser&refresh=10s&panelId=panel-2&theme=${grafanaTheme}`}
                 width="100%"
                 height="450"
                 frameBorder="0"
@@ -280,7 +280,7 @@ export default function DashboardPage() {
             <div className="flex items-center justify-center w-full overflow-hidden">
               <iframe
                 key={`grafana-3-${grafanaTheme}`}
-                src={`http://103.93.160.128:3000/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437565014&to=1777439365014&timezone=browser&refresh=10s&panelId=panel-3&theme=${grafanaTheme}`}
+                src={`/grafana-proxy/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437565014&to=1777439365014&timezone=browser&refresh=10s&panelId=panel-3&theme=${grafanaTheme}`}
                 width="100%"
                 height="450"
                 frameBorder="0"
@@ -296,7 +296,7 @@ export default function DashboardPage() {
             <div className="flex items-center justify-center w-full overflow-hidden">
               <iframe
                 key={`grafana-4-${grafanaTheme}`}
-                src={`http://103.93.160.128:3000/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437586353&to=1777439386353&timezone=browser&refresh=10s&panelId=panel-4&theme=${grafanaTheme}`}
+                src={`/grafana-proxy/d-solo/adnw6vb/smart-agriculture-capstone?orgId=1&from=1777437586353&to=1777439386353&timezone=browser&refresh=10s&panelId=panel-4&theme=${grafanaTheme}`}
                 width="100%"
                 height="450"
                 frameBorder="0"
