@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import LoginPage from "./pages/auth/login";
 import RegisterPage from "./pages/auth/register";
@@ -15,6 +15,22 @@ import LogsPage from "./pages/logpg";
 import { DashboardLayout } from "./components/templates/dashboard-layout";
 import { ThemeProvider, useThemeContext } from "./context/ThemeContext";
 
+const ProtectedRoute = ({ children }) => {
+  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+  return children;
+};
+
+const AuthRoute = ({ children }) => {
+  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  return children;
+};
+
 function AppRoutes() {
   const { isLoading } = useThemeContext()
 
@@ -24,10 +40,14 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/" element={<AuthRoute><LoginPage /></AuthRoute>} />
+      <Route path="/register" element={<AuthRoute><RegisterPage /></AuthRoute>} />
 
-      <Route path="/dashboard" element={<DashboardLayout />}>
+      <Route path="/dashboard" element={
+        <ProtectedRoute>
+          <DashboardLayout />
+        </ProtectedRoute>
+      }>
         <Route index element={<DashboardPage />} />
         <Route path="users" element={<UsersPage />} />
         <Route path="users/create" element={<UserCreatePage />} />

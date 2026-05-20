@@ -1,6 +1,12 @@
-import { Link, useLocation, Outlet, useNavigate } from "react-router-dom"
-import { LayoutDashboard, ChartNoAxesCombined, Users, LogOut, Sprout } from "lucide-react"
-import { ThemeToggle } from "../ui/theme-toggle"
+import { Link, useLocation, Outlet, useNavigate } from "react-router-dom";
+import {
+  LayoutDashboard,
+  ChartNoAxesCombined,
+  Users,
+  LogOut,
+  Sprout,
+} from "lucide-react";
+import { ThemeToggle } from "../ui/theme-toggle";
 
 import {
   AlertDialog,
@@ -8,7 +14,7 @@ import {
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogTrigger,
-} from "../ui/alert-dialog"
+} from "../ui/alert-dialog";
 
 import {
   Card,
@@ -16,9 +22,9 @@ import {
   CardTitle,
   CardContent,
   CardFooter,
-} from "../ui/card"
+} from "../ui/card";
 
-import { Button } from "../ui/button"
+import { Button } from "../ui/button";
 
 import {
   Sidebar,
@@ -33,32 +39,36 @@ import {
   SidebarProvider,
   SidebarTrigger,
   SidebarFooter,
-} from "../ui/sidebar"
+} from "../ui/sidebar";
 
 export function AppSidebar() {
-  const location = useLocation()
-  const navigate = useNavigate()
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Lakukan pembersihan sesi di sini jika perlu
-    navigate("/")
-  }
+    localStorage.removeItem("isAuthenticated");
+    navigate("/");
+  };
 
   const items = [
     { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
     { title: "Crops", url: "/dashboard/crops", icon: Sprout },
-    { title: "Logs", url: "/dashboard/logs", icon: ChartNoAxesCombined },
-  ]
+    // { title: "Logs", url: "/dashboard/logs", icon: ChartNoAxesCombined },
+  ];
 
-  const settings = [
-    { title: "Users", url: "/dashboard/users", icon: Users },
-  ]
+  // const settings = [
+  //   { title: "Users", url: "/dashboard/users", icon: Users },
+  // ]
 
   return (
     <Sidebar>
       <SidebarHeader>
         <div className="flex flex-col items-center gap-1.5">
-          <img src="/images/LOGO.png" alt="dashboard_logo" className="w-full h-28 aspect-square object-contain" />
+          <img
+            src="/images/LOGO.png"
+            alt="dashboard_logo"
+            className="w-full h-28 aspect-square object-contain"
+          />
           <span className="text-sm font-bold">Smart Farm Admin</span>
         </div>
       </SidebarHeader>
@@ -68,7 +78,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
-                const isActive = location.pathname === item.url
+                const isActive = location.pathname === item.url;
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild isActive={isActive}>
@@ -78,12 +88,12 @@ export function AppSidebar() {
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                )
+                );
               })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup>
+        {/* <SidebarGroup>
           <SidebarGroupLabel>Setting</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -102,7 +112,7 @@ export function AppSidebar() {
               })}
             </SidebarMenu>
           </SidebarGroupContent>
-        </SidebarGroup>
+        </SidebarGroup> */}
       </SidebarContent>
       <SidebarFooter>
         <AlertDialog>
@@ -118,14 +128,18 @@ export function AppSidebar() {
                 <CardTitle>Konfirmasi Logout</CardTitle>
               </CardHeader>
               <CardContent>
-                Apakah Anda yakin ingin keluar dari halaman admin? Sesi Anda akan diakhiri.
+                Apakah Anda yakin ingin keluar dari halaman admin? Sesi Anda
+                akan diakhiri.
               </CardContent>
               <CardFooter className="flex justify-end space-x-2">
                 <AlertDialogCancel asChild>
                   <Button variant="outline">Batal</Button>
                 </AlertDialogCancel>
                 <AlertDialogAction asChild>
-                  <Button onClick={handleLogout} className="bg-red-600 hover:bg-red-700">
+                  <Button
+                    onClick={handleLogout}
+                    className="bg-red-600 hover:bg-red-700"
+                  >
                     Keluar
                   </Button>
                 </AlertDialogAction>
@@ -135,7 +149,7 @@ export function AppSidebar() {
         </AlertDialog>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
 
 export function DashboardLayout({ children }) {
@@ -147,10 +161,8 @@ export function DashboardLayout({ children }) {
           <SidebarTrigger />
           <ThemeToggle />
         </header>
-        <main className="flex-1 overflow-auto">
-          {children || <Outlet />}
-        </main>
+        <main className="flex-1 overflow-auto">{children || <Outlet />}</main>
       </div>
     </SidebarProvider>
-  )
+  );
 }
